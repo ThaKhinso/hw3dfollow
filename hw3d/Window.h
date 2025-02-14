@@ -1,7 +1,7 @@
 #pragma once
 #include "ChiliWin.h"
 #include "exception.h"
-
+#include "KeyBoard.h"
 class Window {
 public:
 
@@ -41,6 +41,8 @@ private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lparam) noexcept;
 	static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lparam) noexcept;
 	LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
+public:
+	KeyBoard kbd;
 private:
 	int width;
 	int height;

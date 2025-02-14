@@ -138,6 +138,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="exception.cpp" />
+    <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowMessageMap.cpp" />
     <ClCompile Include="WindowMessageMap.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="brainrot.h" />
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="exception.h" />
+    <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="Window.h" />
   </ItemGroup>
