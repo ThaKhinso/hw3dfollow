@@ -77,10 +77,4 @@ private:
 	std::queue<char> charBuffer;
 };
 
-template<typename T>
-inline void KeyBoard::TrimBuffer(std::queue<T>& buffer) noexcept
-{
-	while (buffer.size() > BufferSize) {
-		buffer.pop();
-	}
-}
+

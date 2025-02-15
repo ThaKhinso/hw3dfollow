@@ -95,6 +95,12 @@ void KeyBoard::ClearState() noexcept
 	keystates.reset();
 }
 
-
+template<typename T>
+void KeyBoard::TrimBuffer(std::queue<T>& buffer) noexcept
+{
+	while (buffer.size() > BufferSize) {
+		buffer.pop();
+	}
+}
 
 

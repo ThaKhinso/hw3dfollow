@@ -1,6 +1,6 @@
 ﻿#define	__WIN64
 #include "Window.h"
-
+#include "App.h"
 //LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) {
 //	static WindowMessageMap mm;
 //	OutputDebugStringA(mm(msg, lParam, wParam).c_str());
@@ -44,17 +44,8 @@ int WINAPI wWinMain(
 ) {	
 	try
 	{
-		Window wnd(800, 300, L"test");
-		MSG msg;
-		BOOLEAN gResult;
-		while ((gResult = GetMessage(&msg, nullptr, 0, 0)) > 0) {
-			TranslateMessage(&msg);
-			DispatchMessage(&msg);
-		}
-		if (gResult == -1) {
-			return -1;
-		}
-		return msg.wParam;
+		return App{}.Go();
+		
 	}
 	catch (const Window::WinException& e) {
 		//OutputDebugStringA(e.what());
