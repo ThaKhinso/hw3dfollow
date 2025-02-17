@@ -1,11 +1,11 @@
 #include "SoeTimer.h"
 
-SoeTimer::SoeTimer()
+SoeTimer::SoeTimer() noexcept
 {
 	last = std::chrono::steady_clock::now();
 }
 
-float SoeTimer::Mark()
+float SoeTimer::Mark() noexcept
 {
 	const auto old = last;
 	last = std::chrono::steady_clock::now();
@@ -13,7 +13,7 @@ float SoeTimer::Mark()
 	return FrameTime.count();
 }
 
-float SoeTimer::Peek() const
+float SoeTimer::Peek() const noexcept
 {
 	return std::chrono::duration<float>(std::chrono::steady_clock::now()-last).count();
 }

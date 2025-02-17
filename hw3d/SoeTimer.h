@@ -4,9 +4,9 @@
 class SoeTimer
 {
 public:
-	SoeTimer();
-	float Mark();
-	float Peek() const;
+	SoeTimer() noexcept;
+	float Mark() noexcept;
+	float Peek() const noexcept;
 private:
 	std::chrono::steady_clock::time_point last;
 };

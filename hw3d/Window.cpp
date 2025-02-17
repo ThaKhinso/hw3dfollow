@@ -2,7 +2,7 @@
 #include <sstream>
 #include "resource.h"
 
-//11:22
+//11/3:50
 
 Window::WindowClass Window::WindowClass::wndClass;
 
@@ -71,6 +71,7 @@ Window::Window(int width, int height, const wchar_t* name)
 		throw CHWND_LAST_EXCEPT();
 	}
 	ShowWindow(hWnd, SW_SHOWDEFAULT);
+	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
 Window::~Window()
@@ -83,6 +84,24 @@ void Window::SetTitle(const std::string& title)
 	if (SetWindowTextA(hWnd, title.c_str()) == 0) {
 		throw CHWND_LAST_EXCEPT();
 	}
+}
+
+std::optional<int> Window::ProcessMessages()
+{
+	MSG msg;
+	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
+		if (msg.message == WM_QUIT) {
+			return (int)msg.wParam;
+		}
+		TranslateMessage(&msg);
+		DispatchMessage(&msg);
+	}
+	return {};
+}
+
+Graphics& Window::Gfx()
+{
+	return *pGfx;
 }
 
 LRESULT CALLBACK Window::HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept

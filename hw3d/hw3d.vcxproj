@@ -139,6 +139,7 @@
   <ItemGroup>
     <ClCompile Include="App.cpp" />
     <ClCompile Include="exception.cpp" />
+    <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="KeyBoard.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="SoeTimer.cpp" />
@@ -152,6 +153,7 @@
     <ClInclude Include="brainrot.h" />
     <ClInclude Include="ChiliWin.h" />
     <ClInclude Include="exception.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="KeyBoard.h" />
     <ClInclude Include="Mouse.h" />
     <ClInclude Include="resource.h" />
