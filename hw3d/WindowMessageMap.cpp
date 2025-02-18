@@ -21,7 +21,7 @@
 #include <string>
 #include <sstream>
 #include <iomanip>
-
+#pragma comment(lib,"onecore.lib")
 // secret messages
 #define WM_UAHDESTROYWINDOW 0x0090
 #define WM_UAHDRAWMENU 0x0091
