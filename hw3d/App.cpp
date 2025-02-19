@@ -1,7 +1,7 @@
 #include "App.h"
 #include <sstream>
 App::App()
-	:wnd(800,600,L"Nigger")
+	:wnd(800,600,L"Test Win")
 {
 }
 

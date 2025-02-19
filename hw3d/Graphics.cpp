@@ -1,7 +1,7 @@
 #include "Graphics.h"
-#pragma comment(lib, "d3d11.lib")
 #include "dxerr.h"
 #include <sstream>
+#pragma comment(lib, "d3d11.lib")
 
 #define GFX_THROW_FAILED(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
 #define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )

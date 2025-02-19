@@ -18,7 +18,7 @@ const char* Exception::what() const noexcept
 
 const char* Exception::GetType() const noexcept
 {
-	return "Nigger Exception";
+	return "Base Exception";
 }
 
 int Exception::GetLine() const noexcept
