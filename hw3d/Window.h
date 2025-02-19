@@ -9,25 +9,17 @@
 
 class Window {
 public:
+
 	class WinException : public Exception {
-		using Exception::Exception;
 	public:
-		static std::string TranslateErrorCode(HRESULT hr) noexcept;
-	};
-	class HrException : public WinException {
-	public:
-		HrException(int line, const char* file, HRESULT hr) noexcept;
+		WinException(int line, const char* file, HRESULT Hr) noexcept;
 		const char* what() const noexcept override;
-		const char* GetType() const noexcept override;
+		virtual const char* GetType() const noexcept;
+		static std::string TranslateErrorCode(HRESULT hr) noexcept;
 		HRESULT GetErrorCode() const noexcept;
-		std::string GetErrorDescription() const noexcept;
+		std::string GetErrorString() const noexcept;
 	private:
 		HRESULT hr;
-	};
-	class NoGfxException : public WinException {
-	public:
-		using WinException::WinException;
-		const char* GetType() const noexcept override;
 	};
 private:
 	class WindowClass {
@@ -51,7 +43,7 @@ public:
 	Window(const Window&) = delete;
 	Window& operator=(const Window&) = delete;
 	void SetTitle(const std::string& title);
-	static std::optional<int> ProcessMessages() noexcept;
+	static std::optional<int> ProcessMessages();
 	Graphics& Gfx();
 private:
 	static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lparam) noexcept;
@@ -68,6 +60,5 @@ private:
 	std::unique_ptr<Graphics> pGfx;
 };
 
-#define CHWND_EXCEPT( hr ) Window::HrException( __LINE__,__FILE__,(hr) )
-#define CHWND_LAST_EXCEPT() Window::HrException( __LINE__,__FILE__,GetLastError() )
-#define CHWND_NOGFX_EXCEPT() Window::NoGfxException( __LINE__,__FILE__ )
+#define CHWND_EXCEPT(hr) Window::WinException(__LINE__, __FILE__, hr)
+#define CHWND_LAST_EXCEPT() Window::WinException(__LINE__, __FILE__, GetLastError())

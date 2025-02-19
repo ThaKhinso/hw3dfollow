@@ -74,6 +74,11 @@ Window::Window(int width, int height, const wchar_t* name)
 	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
+Window::~Window()
+{
+	DestroyWindow(hWnd);
+}
+
 void Window::SetTitle(const std::string& title)
 {
 	if (SetWindowTextA(hWnd, title.c_str()) == 0) {
@@ -81,7 +86,7 @@ void Window::SetTitle(const std::string& title)
 	}
 }
 
-std::optional<int> Window::ProcessMessages() noexcept
+std::optional<int> Window::ProcessMessages()
 {
 	MSG msg;
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -96,9 +101,6 @@ std::optional<int> Window::ProcessMessages() noexcept
 
 Graphics& Window::Gfx()
 {
-	if (!pGfx) {
-		throw CHWND_NOGFX_EXCEPT();
-	}
 	return *pGfx;
 }
 
@@ -209,6 +211,28 @@ LRESULT Window::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noe
 	return DefWindowProcW(hWnd, msg, wParam, lParam);
 }
 
+Window::WinException::WinException(int line, const char* file, HRESULT Hr) noexcept
+	:Exception(line, file), hr(Hr)
+{
+
+}
+
+const char* Window::WinException::what() const noexcept
+{
+	std::ostringstream oss;
+	oss << GetType() << "\n"
+		<< "[Error Code] " << GetErrorCode() << "\n"
+		<< "[Description] " << GetErrorString() << "\n"
+		<< GetOriginString();
+	whatBuffer = oss.str();
+	return whatBuffer.c_str();
+}
+
+const char* Window::WinException::GetType() const noexcept
+{
+	return "Window Exception";
+}
+
 std::string Window::WinException::TranslateErrorCode(HRESULT hr) noexcept
 {
 	char* pMessageBuffer = nullptr;
@@ -217,7 +241,7 @@ std::string Window::WinException::TranslateErrorCode(HRESULT hr) noexcept
 
 	LANGID langID = 0;
 
-	const DWORD nMessageLength = FormatMessageA(
+	DWORD nMessageLength = FormatMessageA(
 		FORMAT_MESSAGE_ALLOCATE_BUFFER |
 		FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_IGNORE_INSERTS,
 		nullptr,
@@ -235,37 +259,12 @@ std::string Window::WinException::TranslateErrorCode(HRESULT hr) noexcept
 	return errorstring;
 }
 
-Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
-	:WinException(line, file),
-	hr(hr)
-{
-
-}
-const char* Window::HrException::what() const noexcept
-{
-	std::ostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
-		<< GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-const char* Window::HrException::GetType() const noexcept
-{
-	return "Soe Window Exception";
-}
-HRESULT Window::HrException::GetErrorCode() const noexcept
+HRESULT Window::WinException::GetErrorCode() const noexcept
 {
 	return hr;
 }
 
-std::string Window::HrException::GetErrorDescription() const noexcept
+std::string Window::WinException::GetErrorString() const noexcept
 {
-	return WinException::TranslateErrorCode(hr);
-}
-const char* Window::NoGfxException::GetType() const noexcept
-{
-	return "Soe Window Exception [No Graphics]";
+	return TranslateErrorCode(hr);
 }
