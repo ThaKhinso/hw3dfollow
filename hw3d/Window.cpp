@@ -74,6 +74,11 @@ Window::Window(int width, int height, const wchar_t* name)
 	pGfx = std::make_unique<Graphics>(hWnd);
 }
 
+Window::~Window()
+{
+	DestroyWindow(hWnd);
+}
+
 void Window::SetTitle(const std::string& title)
 {
 	if (SetWindowTextA(hWnd, title.c_str()) == 0) {
@@ -235,12 +240,14 @@ std::string Window::WinException::TranslateErrorCode(HRESULT hr) noexcept
 	return errorstring;
 }
 
+
 Window::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
-	:WinException(line, file),
+	:
+	WinException(line, file),
 	hr(hr)
 {
-
 }
+
 const char* Window::HrException::what() const noexcept
 {
 	std::ostringstream oss;
@@ -256,6 +263,7 @@ const char* Window::HrException::GetType() const noexcept
 {
 	return "Soe Window Exception";
 }
+
 HRESULT Window::HrException::GetErrorCode() const noexcept
 {
 	return hr;

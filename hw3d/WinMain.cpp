@@ -50,11 +50,11 @@ int WINAPI wWinMain(
 	catch (const Window::WinException& e) {
 		//OutputDebugStringA(e.what());
 		//MessageBox(nullptr, L"win exception", L"this is a win exception", MB_OK | MB_ICONEXCLAMATION);
-		MessageBoxA(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, e.what(), e.GetType(), MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
 	}
 	catch (const std::exception& e) {
 		//OutputDebugStringA(e.what());
-		MessageBoxA(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION);
+		MessageBoxA(nullptr, e.what(), "Standard Exception", MB_OK | MB_ICONEXCLAMATION | MB_TASKMODAL);
 		
 	}
 	catch (...) {
