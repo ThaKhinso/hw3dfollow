@@ -3,12 +3,13 @@
 #include <sstream>
 #pragma comment(lib, "d3d11.lib")
 
-#define GFX_THROW_FAILED(hrcall) if( FAILED( hr = (hrcall) ) ) throw Graphics::HrException( __LINE__,__FILE__,hr )
-#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException( __LINE__,__FILE__,(hr) )
+#pragma comment(lib, "d3d11.lib")
+
+#define GFX_THROW_FAILED(hr) if(FAILED(hr)) throw Graphics::HrException(__LINE__, __FILE__, hr)
+#define GFX_DEVICE_REMOVED_EXCEPT(hr) Graphics::DeviceRemovedException(__LINE__, __FILE__, hr)
 
 Graphics::Graphics(HWND hWnd)
 {
-
 	DXGI_SWAP_CHAIN_DESC sd = {};
 	sd.BufferDesc.Width = 0;
 	sd.BufferDesc.Height = 0;
@@ -21,7 +22,7 @@ Graphics::Graphics(HWND hWnd)
 	sd.SampleDesc.Quality = 0;
 	sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 	sd.BufferCount = 1;
-	sd.OutputWindow = hWnd;
+	sd.OutputWindow = (HWND)696969;
 	sd.Windowed = TRUE;
 	sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 	sd.Flags = 0;
@@ -72,11 +73,14 @@ Graphics::~Graphics()
 void Graphics::EndFrame()
 {
 	HRESULT hr;
-	if (FAILED(hr = pSwap->Present(1u, 0u))) {
-		if (hr == DXGI_ERROR_DEVICE_REMOVED) {
+	if (FAILED(hr = pSwap->Present(1u, 0u)))
+	{
+		if (hr == DXGI_ERROR_DEVICE_REMOVED)
+		{
 			throw GFX_DEVICE_REMOVED_EXCEPT(pDevice->GetDeviceRemovedReason());
 		}
-		else {
+		else
+		{
 			GFX_THROW_FAILED(hr);
 		}
 	}
@@ -89,10 +93,10 @@ void Graphics::ClearBuffer(float red, float green, float blue) noexcept
 }
 
 Graphics::HrException::HrException(int line, const char* file, HRESULT hr) noexcept
-	:Exception(line, file),
-	 hr(hr)
+	:
+	GfException(line, file),
+	hr(hr)
 {
-
 }
 
 const char* Graphics::HrException::what() const noexcept
@@ -101,8 +105,8 @@ const char* Graphics::HrException::what() const noexcept
 	oss << GetType() << std::endl
 		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
 		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
-		<< "[Error String] " << GetErrorString() << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl
+		<< "[Error String]" << GetErrorString() << std::endl
+		<< "[Description]" << GetErrorDescription() << std::endl
 		<< GetOriginString();
 	whatBuffer = oss.str();
 	return whatBuffer.c_str();
@@ -125,9 +129,9 @@ std::string Graphics::HrException::GetErrorString() const noexcept
 
 std::string Graphics::HrException::GetErrorDescription() const noexcept
 {
-	char buf[512];
-	DXGetErrorDescriptionA(hr, buf, sizeof(buf));
-	return buf;
+	char buffer[512];
+	DXGetErrorDescriptionA(hr, buffer, sizeof(buffer));
+	return buffer;
 }
 
 const char* Graphics::DeviceRemovedException::GetType() const noexcept

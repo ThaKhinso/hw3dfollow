@@ -19,11 +19,11 @@
 extern "C" {
 #endif
 
-//--------------------------------------------------------------------------------------
-// DXGetErrorString
-//--------------------------------------------------------------------------------------
-const WCHAR* WINAPI DXGetErrorStringW( _In_ HRESULT hr );
-const CHAR* WINAPI DXGetErrorStringA( _In_ HRESULT hr );
+	//--------------------------------------------------------------------------------------
+	// DXGetErrorString
+	//--------------------------------------------------------------------------------------
+	const WCHAR* WINAPI DXGetErrorStringW(_In_ HRESULT hr);
+	const CHAR* WINAPI DXGetErrorStringA(_In_ HRESULT hr);
 #ifdef UNICODE
 #define DXGetErrorString DXGetErrorStringW
 #else

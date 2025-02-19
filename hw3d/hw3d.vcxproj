@@ -78,7 +78,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -146,14 +146,14 @@
     <ClCompile Include="SoeTimer.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WindowMessageMap.cpp" />
-    <ClCompile Include="WindowMessageMap.h" />
+    <ClInclude Include="dxerr.h" />
+    <ClInclude Include="WindowMessageMap.h" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="brainrot.h" />
     <ClInclude Include="ChiliWin.h" />
-    <ClInclude Include="dxerr.h" />
     <ClInclude Include="exception.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="KeyBoard.h" />

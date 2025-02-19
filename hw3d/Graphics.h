@@ -7,10 +7,12 @@
 class Graphics
 {
 public:
-	class GfException : public Exception {
+	class GfException : public Exception
+	{
 		using Exception::Exception;
 	};
-	class HrException : public Exception {
+	class HrException : public GfException
+	{
 	public:
 		HrException(int line, const char* file, HRESULT hr) noexcept;
 		const char* what() const noexcept override;
@@ -19,9 +21,10 @@ public:
 		std::string GetErrorString() const noexcept;
 		std::string GetErrorDescription() const noexcept;
 	private:
-		HRESULT hr; 
+		HRESULT hr;
 	};
-	class DeviceRemovedException : public HrException {
+	class DeviceRemovedException : public HrException
+	{
 		using HrException::HrException;
 	public:
 		const char* GetType() const noexcept override;
